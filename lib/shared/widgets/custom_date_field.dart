@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'package:todo_app/core/constants/app_dimensions.dart';
 import 'package:todo_app/core/constants/typography.dart';
-import 'package:todo_app/core/utils/date_helper.dart';
-import 'package:todo_app/core/utils/validation.dart';
+import 'package:todo_app/core/service/date_helper.dart';
+import 'package:todo_app/core/service/validation.dart';
 
 class CustomDateField extends StatefulWidget {
   final TextEditingController controller;
@@ -13,8 +13,6 @@ class CustomDateField extends StatefulWidget {
   final String? hintText;
   final String labelText;
   final bool? validate;
-
-  // Custom border colors
   final Color? enabledBorderColor;
   final Color? focusedBorderColor;
   final Color? errorBorderColor;

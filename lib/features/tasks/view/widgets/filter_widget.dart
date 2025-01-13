@@ -6,7 +6,6 @@ import 'package:todo_app/core/service/responsive.dart';
 import 'package:todo_app/features/tasks/view/widgets/status_select_button.dart';
 import 'package:todo_app/features/tasks/view_model.dart/task_view_model.dart';
 
-
 class StatusSelectWidget extends StatelessWidget {
   StatusSelectWidget({
     super.key,
@@ -21,7 +20,6 @@ class StatusSelectWidget extends StatelessWidget {
               horizontal: AppDimensions.paddingMedium),
           child: Column(
             children: [
-            
               Row(
                 mainAxisAlignment: AppResponsive.isMobile(context)
                     ? MainAxisAlignment.start

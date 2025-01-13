@@ -30,6 +30,5 @@ class StatuSModeFilterButton extends StatelessWidget {
           borderRadius:
               BorderRadius.circular(AppDimensions.buttonBorderRadius)),
     );
-
   }
 }

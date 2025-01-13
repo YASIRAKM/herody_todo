@@ -4,7 +4,7 @@ import 'package:todo_app/core/constants/app_dimensions.dart';
 import 'package:todo_app/core/constants/typography.dart';
 import 'package:todo_app/core/service/responsive.dart';
 import 'package:todo_app/core/utils/confirm_dialoge.dart';
-import 'package:todo_app/core/utils/date_helper.dart';
+import 'package:todo_app/core/service/date_helper.dart';
 import 'package:todo_app/core/utils/show_message.dart';
 import 'package:todo_app/core/utils/transparent_dialoge.dart';
 import 'package:todo_app/features/tasks/model/task_model.dart';
@@ -24,19 +24,19 @@ class TaskAddForm extends StatefulWidget {
 }
 
 class _TaskAddFormState extends State<TaskAddForm> {
-  final taskName = TextEditingController();
+  final _taskName = TextEditingController();
 
-  final description = TextEditingController();
-  final deadline = TextEditingController();
-  var title = "Add Todo";
-  final formKey = GlobalKey<FormState>();
+  final _description = TextEditingController();
+  final _deadline = TextEditingController();
+  var _title = "Add Task";
+  final _formKey = GlobalKey<FormState>();
   @override
   void initState() {
     if (widget.task != null) {
-      taskName.text = widget.task!.taskName;
-      description.text = widget.task!.description;
-      deadline.text = DateHelper.formatToDDMMYYYY(widget.task!.deadLine);
-      title = "Update Todo";
+      _taskName.text = widget.task!.taskName;
+      _description.text = widget.task!.description;
+      _deadline.text = DateHelper.formatToDDMMYYYY(widget.task!.deadLine);
+      _title = "Update Task";
     }
 
     super.initState();
@@ -44,9 +44,9 @@ class _TaskAddFormState extends State<TaskAddForm> {
 
   @override
   void dispose() {
-    taskName.dispose();
-    description.dispose();
-    deadline.dispose();
+    _taskName.dispose();
+    _description.dispose();
+    _deadline.dispose();
     super.dispose();
   }
 
@@ -64,43 +64,43 @@ class _TaskAddFormState extends State<TaskAddForm> {
         bottom: MediaQuery.of(context).viewInsets.bottom,
       ),
       child: Form(
-        key: formKey,
+        key: _formKey,
         child: SingleChildScrollView(
           child: Column(
             mainAxisSize: MainAxisSize.min,
             spacing: 12,
             children: [
               Text(
-                title,
+                _title,
                 style: AppTypography.heading2,
               ),
               CustomTextField(
-                controller: taskName,
+                controller: _taskName,
                 labelText: "Task name",
                 validate: true,
                 hintText: "Task",
               ),
               CustomTextField(
-                controller: description,
+                controller: _description,
                 labelText: "Description",
                 validate: true,
                 maxLines: 3,
                 hintText: "Description ...",
               ),
               CustomDateField(
-                controller: deadline,
+                controller: _deadline,
                 labelText: "Deadline",
                 hintText: DateHelper.formatToDDMMYYYY(DateTime.now()),
                 validate: true,
               ),
               CustomButton(
-                  text: title,
+                  text: _title,
                   onPressed: () async {
-                    if (formKey.currentState!.validate()) {
+                    if (_formKey.currentState!.validate()) {
                       if (widget.task != null) {
-                        await updateTask(context);
+                        await _updateTask(context);
                       } else {
-                        await addTaskMethod(context);
+                        await _addTaskMethod(context);
                       }
                     }
                   })
@@ -111,7 +111,8 @@ class _TaskAddFormState extends State<TaskAddForm> {
     );
   }
 
-  Future<void> updateTask(BuildContext context) async {
+//Update task
+  Future<void> _updateTask(BuildContext context) async {
     confirmDialoge(
         context: context,
         title: "Update Task",
@@ -120,9 +121,9 @@ class _TaskAddFormState extends State<TaskAddForm> {
           transparentDialog(context);
           Task task = Task(
               id: widget.task!.id,
-              taskName: taskName.text,
-              description: description.text,
-              deadLine: DateHelper.parseFromDDMMYYYY(deadline.text),
+              taskName: _taskName.text,
+              description: _description.text,
+              deadLine: DateHelper.parseFromDDMMYYYY(_deadline.text),
               isDone: false,
               createdAt: widget.task!.createdAt);
           (bool, String) res =
@@ -131,8 +132,8 @@ class _TaskAddFormState extends State<TaskAddForm> {
             navigatorKey.currentState!.pop();
             navigatorKey.currentState!.pop();
             navigatorKey.currentState!.pop();
-            taskName.clear();
-            description.clear();
+            _taskName.clear();
+            _description.clear();
             showMessage(message: "Task Updated");
           } else {
             navigatorKey.currentState!.pop();
@@ -142,22 +143,22 @@ class _TaskAddFormState extends State<TaskAddForm> {
         buttonText: "Update");
   }
 
-/*Add Task */
-  Future<void> addTaskMethod(BuildContext context) async {
+//Add Task
+  Future<void> _addTaskMethod(BuildContext context) async {
     transparentDialog(context);
     Task task = Task(
-        deadLine: DateHelper.parseFromDDMMYYYY(deadline.text),
+        deadLine: DateHelper.parseFromDDMMYYYY(_deadline.text),
         id: "",
-        taskName: taskName.text,
-        description: description.text,
+        taskName: _taskName.text,
+        description: _description.text,
         isDone: false,
         createdAt: DateTime.now());
     (bool, String) res = await context.read<TaskViewModel>().addTask(task);
     if (res.$1) {
       navigatorKey.currentState!.pop();
       navigatorKey.currentState!.pop();
-      taskName.clear();
-      description.clear();
+      _taskName.clear();
+      _description.clear();
       showMessage(message: "Task added");
     } else {
       navigatorKey.currentState!.pop();

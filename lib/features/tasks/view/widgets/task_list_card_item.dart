@@ -4,7 +4,7 @@ import 'package:todo_app/core/constants/app_dimensions.dart';
 import 'package:todo_app/core/constants/colors.dart';
 import 'package:todo_app/core/constants/typography.dart';
 import 'package:todo_app/core/extensions/string_extension.dart';
-import 'package:todo_app/core/utils/date_helper.dart';
+import 'package:todo_app/core/service/date_helper.dart';
 import 'package:todo_app/features/tasks/model/task_model.dart';
 
 class TaskListCardItem extends StatelessWidget {

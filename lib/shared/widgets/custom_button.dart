@@ -11,8 +11,6 @@ class CustomButton extends StatelessWidget {
       required this.onPressed,
       this.invertedColors = false,
       super.key});
-  final primaryColor = AppColors.buttonPrimary;
-  final accentColor = const Color(0xffffffff);
 
   @override
   Widget build(BuildContext context) {
@@ -21,11 +19,12 @@ class CustomButton extends StatelessWidget {
             elevation: WidgetStateProperty.all(0),
             alignment: Alignment.center,
             side: WidgetStateProperty.all(
-                BorderSide(width: 1, color: primaryColor)),
+                BorderSide(width: 1, color: AppColors.buttonPrimary)),
             padding: WidgetStateProperty.all(const EdgeInsets.symmetric(
                 horizontal: AppDimensions.paddingLarge)),
-            backgroundColor: WidgetStateProperty.all(
-                invertedColors ? accentColor : primaryColor),
+            backgroundColor: WidgetStateProperty.all(invertedColors
+                ? AppColors.secondaryColor
+                : AppColors.buttonPrimary),
             shape: WidgetStateProperty.all(
               RoundedRectangleBorder(
                   borderRadius:
@@ -37,7 +36,9 @@ class CustomButton extends StatelessWidget {
           child: Text(
             text,
             style: TextStyle(
-                color: invertedColors ? primaryColor : accentColor,
+                color: invertedColors
+                    ? AppColors.buttonPrimary
+                    : AppColors.secondaryColor,
                 fontSize: 16),
           ),
         ));

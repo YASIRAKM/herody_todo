@@ -19,13 +19,13 @@ class ResetPasswordWidget extends StatefulWidget {
 }
 
 class _ResetPasswordWidgetState extends State<ResetPasswordWidget> {
-  final resetMail = TextEditingController();
+  final _resetMail = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
 
   @override
   void dispose() {
-    resetMail.dispose();
+    _resetMail.dispose();
 
     super.dispose();
   }
@@ -63,7 +63,7 @@ class _ResetPasswordWidgetState extends State<ResetPasswordWidget> {
                 style: AppTypography.bodyText,
               ),
               CustomTextField(
-                controller: resetMail,
+                controller: _resetMail,
                 labelText: "Email",
                 validate: true,
                 filled: true,
@@ -72,21 +72,7 @@ class _ResetPasswordWidgetState extends State<ResetPasswordWidget> {
               CustomButton(
                 text: "Reset Password",
                 onPressed: () async {
-                  if (_formKey.currentState!.validate()) {
-                    transparentDialog(context);
-                    bool res = await context
-                        .read<AuthViewModel>()
-                        .resetPassword(resetMail.text.trim());
-                    if (res) {
-                      navigatorKey.currentState!.pop();
-                      navigatorKey.currentState!.pop();
-                      showMessage(
-                          message: "Reset link has been sent to the mail.");
-                    } else {
-                      navigatorKey.currentState!.pop();
-                      showMessage(message: "Failed to send link.");
-                    }
-                  }
+                  await _resetMailValidation(context);
                 },
               ),
               SizedBox(
@@ -97,5 +83,23 @@ class _ResetPasswordWidgetState extends State<ResetPasswordWidget> {
         ),
       ),
     );
+  }
+
+// reset mail fuction
+  Future<void> _resetMailValidation(BuildContext context) async {
+    if (_formKey.currentState!.validate()) {
+      transparentDialog(context);
+      bool res = await context
+          .read<AuthViewModel>()
+          .resetPassword(_resetMail.text.trim());
+      if (res) {
+        navigatorKey.currentState!.pop();
+        navigatorKey.currentState!.pop();
+        showMessage(message: "Reset link has been sent to the mail.");
+      } else {
+        navigatorKey.currentState!.pop();
+        showMessage(message: "Failed to send link.");
+      }
+    }
   }
 }

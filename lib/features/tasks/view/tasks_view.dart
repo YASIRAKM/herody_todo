@@ -40,7 +40,7 @@ class TasksView extends StatelessWidget {
                   style: AppTypography.heading2,
                 ),
                 actions: [
-                  logouMethod(context),
+                  _logoutMethod(context),
                   SizedBox(
                     width: 18,
                   )
@@ -98,7 +98,7 @@ class TasksView extends StatelessWidget {
                                 itemCount: snapshot.data!.length,
                                 itemBuilder: (context, index) {
                                   Task current = snapshot.data![index];
-                                  return listCardMethod(
+                                  return _listCardItem(
                                       current, context, taskViewModel);
                                 },
                               )
@@ -118,7 +118,7 @@ class TasksView extends StatelessWidget {
                                         crossAxisCount: 2),
                                 itemBuilder: (context, index) {
                                   Task current = snapshot.data![index];
-                                  return listCardMethod(
+                                  return _listCardItem(
                                       current, context, taskViewModel);
                                 },
                                 itemCount: snapshot.data!.length,
@@ -130,7 +130,7 @@ class TasksView extends StatelessWidget {
           ),
           floatingActionButton: FloatingActionButtonWidget(
             onPressed: () {
-              addUpdateTask(context);
+              _addUpdateTask(context);
             },
             icon: EvaIcons.plus_circle_outline,
             title: "Add Task",
@@ -140,21 +140,21 @@ class TasksView extends StatelessWidget {
     );
   }
 
-  /// task item
-  TaskListCardItem listCardMethod(
+  // task item
+  TaskListCardItem _listCardItem(
       Task current, BuildContext context, TaskViewModel taskViewModel) {
     return TaskListCardItem(
       current: current,
       toggleTask: () async {
-        await toggleMethod(context, taskViewModel, current);
+        await _toggleMethod(context, taskViewModel, current);
       },
       onSelected: (value) async {
         switch (value) {
           case 'update':
-            await addUpdateTask(context, current);
+            await _addUpdateTask(context, current);
             break;
           case 'delete':
-            await deleteTaskMethod(context, taskViewModel, current);
+            await _deleteTaskMethod(context, taskViewModel, current);
             break;
           default:
             break;
@@ -163,8 +163,8 @@ class TasksView extends StatelessWidget {
     );
   }
 
-//// logout
-  InkWell logouMethod(BuildContext context) {
+// logout
+  InkWell _logoutMethod(BuildContext context) {
     return InkWell(
         onTap: () {
           confirmDialoge(
@@ -201,8 +201,8 @@ class TasksView extends StatelessWidget {
         ));
   }
 
-  ///Toggle task
-  Future<void> toggleMethod(
+  //Toggle task
+  Future<void> _toggleMethod(
       BuildContext context, TaskViewModel taskViewModel, Task current) async {
     confirmDialoge(
         context: context,
@@ -223,7 +223,7 @@ class TasksView extends StatelessWidget {
   }
 
   /// delete task
-  Future<void> deleteTaskMethod(
+  Future<void> _deleteTaskMethod(
       BuildContext context, TaskViewModel taskViewModel, Task current) async {
     confirmDialoge(
         context: context,
@@ -245,7 +245,7 @@ class TasksView extends StatelessWidget {
   }
 
 // add update task
-  addUpdateTask(BuildContext context, [Task? task]) {
+  _addUpdateTask(BuildContext context, [Task? task]) {
     if (task != null && task.isDone) {
       showMessage(message: "Editing a completed task is not allowed");
     } else {

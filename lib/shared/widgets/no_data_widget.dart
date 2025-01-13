@@ -9,11 +9,11 @@ class NoDataWidget extends StatelessWidget {
   final Color? iconColor;
 
   const NoDataWidget({
-    Key? key,
+    super.key,
     this.message = "No data available",
     this.iconSize = 50.0,
     this.iconColor = AppColors.textFildFillColor,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

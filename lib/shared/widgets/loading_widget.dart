@@ -24,9 +24,9 @@ class LoadingWidget extends StatelessWidget {
             height: size,
             child: CircularProgressIndicator(
               valueColor: AlwaysStoppedAnimation<Color>(color!),
-              strokeWidth: 3.0, // Customize thickness of the spinner
-              value: null, // For indefinite loading
-              backgroundColor: Colors.transparent, // Transparent background
+              strokeWidth: 3.0,
+              value: null,
+              backgroundColor: Colors.transparent,
             ),
           ),
           if (loadingMessage != null) ...[
@@ -37,7 +37,7 @@ class LoadingWidget extends StatelessWidget {
                 fontSize: 12.0,
                 fontWeight: FontWeight.w600,
                 color: color,
-                letterSpacing: 1, // Add letter spacing for a smoother feel
+                letterSpacing: 1,
               ),
             ),
           ],

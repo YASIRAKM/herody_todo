@@ -23,22 +23,16 @@ class AuthView extends StatefulWidget {
 }
 
 class _AuthViewState extends State<AuthView> {
-  final ValueNotifier<bool> isRegister = ValueNotifier(false);
+  final _email = TextEditingController();
 
-  final name = TextEditingController();
+  final _password = TextEditingController();
 
-  final email = TextEditingController();
-
-  final password = TextEditingController();
-
-  final formKey = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>();
 
   @override
   void dispose() {
-    // Dispose controllers to free up memory
-    name.dispose();
-    email.dispose();
-    password.dispose();
+    _email.dispose();
+    _password.dispose();
     super.dispose();
   }
 
@@ -52,7 +46,7 @@ class _AuthViewState extends State<AuthView> {
               horizontal: AppDimensions.paddingMedium,
               vertical: AppDimensions.marginSmall),
           child: Form(
-            key: formKey,
+            key: _formKey,
             child: Center(
               child: SizedBox(
                 width: AppResponsive.isMobile(context)
@@ -72,14 +66,14 @@ class _AuthViewState extends State<AuthView> {
                     CustomTextField(
                       validate: true,
                       labelText: "Email",
-                      controller: email,
+                      controller: _email,
                       filled: true,
                       hintText: "Enter your mail",
                     ),
                     CustomTextField(
                       validate: true,
                       labelText: "Password",
-                      controller: password,
+                      controller: _password,
                       filled: true,
                       hintText: "Enter password",
                       isPassword: true,
@@ -110,11 +104,11 @@ class _AuthViewState extends State<AuthView> {
                     CustomButton(
                       onPressed: () async {
                         transparentDialog(context);
-                        if (formKey.currentState!.validate()) {
+                        if (_formKey.currentState!.validate()) {
                           if (authViewModel.isRegister) {
-                            await signUpMethod(authViewModel);
+                            await _signUpMethod(authViewModel);
                           } else {
-                            await loginMethod(authViewModel);
+                            await _loginMethod(authViewModel);
                           }
                         } else {
                           navigatorKey.currentState!.pop();
@@ -160,9 +154,9 @@ class _AuthViewState extends State<AuthView> {
   }
 
   ///login
-  Future<void> loginMethod(AuthViewModel authViewModel) async {
+  Future<void> _loginMethod(AuthViewModel authViewModel) async {
     (bool, String) res =
-        await authViewModel.login(email.text.trim(), password.text.trim());
+        await authViewModel.login(_email.text.trim(), _password.text.trim());
 
     if (res.$1) {
       navigatorKey.currentState!.pop();
@@ -179,9 +173,9 @@ class _AuthViewState extends State<AuthView> {
   }
 
   ///sign in
-  Future<void> signUpMethod(AuthViewModel authViewModel) async {
+  Future<void> _signUpMethod(AuthViewModel authViewModel) async {
     (bool, String) res =
-        await authViewModel.register(email.text.trim(), password.text.trim());
+        await authViewModel.register(_email.text.trim(), _password.text.trim());
     if (res.$1) {
       navigatorKey.currentState!.pop();
       navigatorKey.currentState!.pushAndRemoveUntil(

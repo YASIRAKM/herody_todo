@@ -3,7 +3,7 @@ import 'package:icons_plus/icons_plus.dart';
 import 'package:todo_app/core/constants/app_dimensions.dart';
 import 'package:todo_app/core/constants/colors.dart';
 import 'package:todo_app/core/constants/typography.dart';
-import 'package:todo_app/core/utils/validation.dart';
+import 'package:todo_app/core/service/validation.dart';
 
 class CustomTextField extends StatefulWidget {
   final TextEditingController controller;

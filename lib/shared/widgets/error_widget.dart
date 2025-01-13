@@ -11,10 +11,10 @@ class ErrorViewWidget extends StatelessWidget {
   final Widget widget;
 
   const ErrorViewWidget({
-    Key? key,
+    super.key,
     required this.errorMessage,
     required this.widget,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
